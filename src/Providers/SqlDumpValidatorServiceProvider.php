@@ -20,10 +20,8 @@ class SqlDumpValidatorServiceProvider extends ServiceProviderBase
 
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                ValidateSqlDumpCommand::class,
-            ]);
-        }
+        $this->commands([
+            ValidateSqlDumpCommand::class,
+        ]);
     }
 }
