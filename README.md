@@ -42,6 +42,45 @@ The package includes a service provider that registers the `SqlDumpValidatorServ
 
 If you want to use a different file adapter, you can bind your own implementation to the `IFileAdapter` interface in your own service provider.
 
+## Listening to Events
+
+The service used by the command fires an event for each file processed. You can listen/subscribe to events to handle the validation results.
+
+```php
+class SqlDumpEventSubscriber
+{
+    public function subscribe($events)
+    {
+        $events->listen(
+            SqlDumpFileOk::class,
+            function ($event) {
+                Log::info('SqlDumpFileOk event fired', ['metadata' => $event->metadata]);
+            }
+        );
+
+        $events->listen(
+            SqlDumpFileCorrupted::class,
+            function ($event) {
+                Log::info('SqlDumpFileCorrupted event fired', ['metadata' => $event->metadata, 'errors' => $event->errors]);
+            }
+        );
+    }
+}
+```
+
+```php
+class EventServiceProvider extends ServiceProvider
+{
+    // [...]
+
+    protected $subscribe = [
+        SqlDumpEventSubscriber::class,
+    ];
+
+    // [...]
+}
+```
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
