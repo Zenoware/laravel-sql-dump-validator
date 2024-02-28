@@ -10,6 +10,10 @@ Use composer to install the package:
 composer require zenoware/laravel-sql-dump-validator
 ```
 
+## Requirements
+
+The package requires the `gunzip` command to be installed on your system. The command is used to test the integrity of `.sql.gz` files.
+
 ## Usage
 
 ### Command
@@ -20,9 +24,30 @@ You can use the provided command to validate SQL dump files. The command accepts
 php artisan zenoware:sqldump:validate {path} {--depth=2}
 ```
 
+Validating SQL dump files in the `storage/app/sqldumps` directory:
+
+```bash
+php artisan zenoware:sqldump:validate storage/app/sqldumps
+```
+
+Validating SQL dump files in the `storage/app/sqldumps` directory with a maximum depth of 3:
+
+```bash
+php artisan zenoware:sqldump:validate storage/app/sqldumps --depth=3
+```
+
 The `path` argument is the directory where your SQL dump files are located. The `--depth` option is the maximum directory depth for the file search.
 
 The command will print the validation results to the console. If a file is corrupted, it will print an error message with the file path and the error details.
+
+### On Routes and Jobs
+
+Since the command uses `SqlDumpValidatorService` under the hood, you can also listen to events to handle the validation results by just running the command from within a job or a route.
+
+```bash
+# Be wary of timeouts when calling the command from a route or a job
+Artisan::call('zenoware:sqldump:validate', ['path' => storage_path('app/sqldumps')]);
+```
 
 ### Service
 
