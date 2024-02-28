@@ -1,5 +1,6 @@
 {
     "name": "zenoware/laravel-sql-dump-validator",
+    "type": "library",
     "description": "Recursively finds and validates SQL dump (.sql.gz) files inside a directory.",
     "license": "MIT",
     "autoload": {
