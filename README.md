@@ -7,7 +7,7 @@ This package provides a Laravel command and a service to validate SQL dump files
 Use composer to install the package:
 
 ```bash
-composer require zenoware/laravel-sqldump-validator
+composer require zenoware/laravel-sql-dump-validator
 ```
 
 ## Usage
