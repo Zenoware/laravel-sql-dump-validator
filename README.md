@@ -1,5 +1,7 @@
 # Laravel SQL Dump Validator
 
+![PHPUnit](https://github.com/Zenoware/laravel-sql-dump-validator/actions/workflows/phpunit.yml/badge.svg)
+
 This package provides a Laravel command and a service to validate SQL dump files for corruption. It uses the `gunzip -t` command to test the integrity of `.sql.gz` files.
 
 ## Installation
