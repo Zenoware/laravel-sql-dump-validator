@@ -9,6 +9,7 @@ use Zenoware\Laravel\SqlDumpValidator\Dto\SqlDumpFileMetadata;
 use Zenoware\Laravel\SqlDumpValidator\Events\SqlDumpFileOk;
 use Zenoware\Laravel\SqlDumpValidator\Events\SqlDumpFileCorrupted;
 use Illuminate\Support\Facades\Event;
+use Zenoware\Laravel\SqlDumpValidator\Factories\ProcessFactory;
 
 class SqlDumpValidatorService
 {
@@ -16,9 +17,12 @@ class SqlDumpValidatorService
 
     private IFileAdapter $adapter;
 
-    public function __construct(IFileAdapter $adapter)
+    private ProcessFactory $processFactory;
+
+    public function __construct(IFileAdapter $adapter, ProcessFactory $processFactory = null)
     {
         $this->adapter = $adapter;
+        $this->processFactory = $processFactory ?? new ProcessFactory();
     }
 
     public function validateSqlDumps(string $path, int $depth, callable $onFileProcessed): void
@@ -26,7 +30,7 @@ class SqlDumpValidatorService
         $files = $this->adapter->findFiles($path, $depth);
 
         foreach ($files as $file) {
-            $process = new Process(['gunzip', '-t', $file]);
+            $process = $this->processFactory->create(['gunzip', '-t', $file]);
             $process->run();
 
             $errorOutput = $process->getErrorOutput();

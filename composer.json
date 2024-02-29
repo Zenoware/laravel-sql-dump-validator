@@ -8,6 +8,11 @@
             "Zenoware\\Laravel\\SqlDumpValidator\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "JP Caparas",
@@ -26,5 +31,9 @@
                 "Zenoware\\Laravel\\SqlDumpValidator\\Providers\\SqlDumpValidatorServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.5",
+        "mockery/mockery": "^1.6"
     }
 }
